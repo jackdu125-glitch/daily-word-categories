@@ -1,6 +1,15 @@
 "use client";
 
-import { RotateCcw, Send, Shuffle, Sparkles } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  Clock3,
+  ListChecks,
+  RotateCcw,
+  Send,
+  Shuffle,
+  Sparkles,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -220,11 +229,7 @@ export default function Home() {
             <Sparkles size={18} aria-hidden="true" />
             <span>Daily Word Categories</span>
           </div>
-          <div className={styles.navMeta}>
-            <Link href="/how-to-play">How to play</Link>
-            <Link href="/archive">Archive</Link>
-            <time dateTime={puzzle.date}>{puzzle.date}</time>
-          </div>
+          <time dateTime={puzzle.date}>{puzzle.date}</time>
         </nav>
 
         <div className={styles.titleBlock}>
@@ -233,6 +238,29 @@ export default function Home() {
             A midnight card-board puzzle for short daily play: quiet, sharp, and
             just difficult enough to make the last group sting.
           </p>
+        </div>
+
+        <div className={styles.entryGrid} aria-label="Site sections">
+          <Link className={styles.entryCard} href="/how-to-play">
+            <BookOpen size={17} aria-hidden="true" />
+            <span>Rules</span>
+            <small>Learn how the puzzle works.</small>
+          </Link>
+          <Link className={styles.entryCard} href="/archive">
+            <CalendarDays size={17} aria-hidden="true" />
+            <span>Archive</span>
+            <small>Browse previous daily puzzles.</small>
+          </Link>
+          <Link className={styles.entryCard} href={`/answers/${puzzle.date}`}>
+            <ListChecks size={17} aria-hidden="true" />
+            <span>Today&apos;s answer</span>
+            <small>Reveal the current groups.</small>
+          </Link>
+          <div className={`${styles.entryCard} ${styles.entryLocked}`}>
+            <Clock3 size={17} aria-hidden="true" />
+            <span>Next puzzle</span>
+            <small>Unlocks tomorrow at 6:00 AM.</small>
+          </div>
         </div>
       </section>
 
@@ -317,6 +345,10 @@ export default function Home() {
             <button onClick={shareResult} type="button">
               Share result
             </button>
+            <div className={styles.completeActions}>
+              <Link href="/archive">Play from archive</Link>
+              <span>Next puzzle unlocks tomorrow at 6:00 AM.</span>
+            </div>
             {shareStatus ? <p>{shareStatus}</p> : null}
           </div>
         ) : null}
