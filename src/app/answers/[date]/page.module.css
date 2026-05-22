@@ -76,3 +76,35 @@
   color: var(--muted);
   line-height: 1.6;
 }
+
+.lockedPanel {
+  display: grid;
+  gap: 12px;
+  margin-top: 34px;
+  padding: 22px;
+  border: 1px solid rgba(28, 34, 45, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.lockedPanel span {
+  color: var(--soft);
+  font-size: 0.7rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.lockedPanel h2 {
+  font-size: 1.2rem;
+}
+
+.lockedPanel p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.lockedPanel a {
+  width: max-content;
+  color: var(--text);
+  font-weight: 780;
+}

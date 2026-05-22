@@ -5,6 +5,7 @@ import {
   CalendarDays,
   Clock3,
   ListChecks,
+  Lock,
   RotateCcw,
   Send,
   Shuffle,
@@ -14,6 +15,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   categoryForSelection,
+  ANSWER_UNLOCK_SOLVED_COUNT,
+  canViewAnswers,
   createShareText,
   fallbackPuzzle,
   getProgressStorageKey,
@@ -110,6 +113,7 @@ export default function Home() {
 
   const isComplete = solved.length === 4;
   const isFailed = mistakes === 0 && !isComplete;
+  const answersUnlocked = canViewAnswers(solved.length);
   const displayGroups = useMemo(
     () =>
       isFailed
@@ -251,11 +255,19 @@ export default function Home() {
             <span>Archive</span>
             <small>Browse previous daily puzzles.</small>
           </Link>
-          <Link className={styles.entryCard} href={`/answers/${puzzle.date}`}>
-            <ListChecks size={17} aria-hidden="true" />
-            <span>Today&apos;s answer</span>
-            <small>Reveal the current groups.</small>
-          </Link>
+          {answersUnlocked ? (
+            <Link className={styles.entryCard} href={`/answers/${puzzle.date}`}>
+              <ListChecks size={17} aria-hidden="true" />
+              <span>Today&apos;s answer</span>
+              <small>Reveal the current groups.</small>
+            </Link>
+          ) : (
+            <div className={`${styles.entryCard} ${styles.entryLocked}`}>
+              <Lock size={17} aria-hidden="true" />
+              <span>Today&apos;s answer</span>
+              <small>Solve {ANSWER_UNLOCK_SOLVED_COUNT} groups to unlock.</small>
+            </div>
+          )}
           <div className={`${styles.entryCard} ${styles.entryLocked}`}>
             <Clock3 size={17} aria-hidden="true" />
             <span>Next puzzle</span>

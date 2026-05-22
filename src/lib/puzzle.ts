@@ -14,6 +14,8 @@ export type SolvedGroup = Category & {
   order: number;
 };
 
+export const ANSWER_UNLOCK_SOLVED_COUNT = 2;
+
 export const fallbackPuzzle: Puzzle = {
   date: new Date().toISOString().slice(0, 10),
   words: [
@@ -81,6 +83,10 @@ export function getProgressStorageKey(date: string) {
 
 export function getSolvedWords(solved: Pick<SolvedGroup, "words">[]) {
   return new Set(solved.flatMap((group) => group.words));
+}
+
+export function canViewAnswers(solvedCount: number) {
+  return solvedCount >= ANSWER_UNLOCK_SOLVED_COUNT;
 }
 
 export function createShareText(

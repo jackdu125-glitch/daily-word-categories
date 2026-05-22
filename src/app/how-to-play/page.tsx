@@ -29,7 +29,20 @@ export default function HowToPlayPage() {
             <li>A correct group locks in and reveals its category.</li>
             <li>An incorrect group costs one mistake.</li>
             <li>Solve all four groups before you run out of mistakes.</li>
+            <li>
+              The full answer page unlocks only after you solve at least two
+              groups for that day.
+            </li>
           </ol>
+        </section>
+
+        <section className={styles.notice}>
+          <h2>Answer access</h2>
+          <p>
+            Today&apos;s answers are locked at first. To keep the daily puzzle
+            fair, solve two correct groups before opening the full answer list.
+            Older answer pages use the same local progress rule for each date.
+          </p>
         </section>
 
         <section>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatPuzzleDate } from "@/lib/puzzle";
 import { getPuzzleByDate, getRecentPuzzles } from "@/lib/puzzles-data";
+import { AnswerGate } from "./answer-gate";
 import styles from "./page.module.css";
 
 type AnswerPageProps = {
@@ -52,19 +53,10 @@ export default async function AnswerPage({ params }: AnswerPageProps) {
         <p className={styles.kicker}>Daily answers</p>
         <h1>{formatPuzzleDate(puzzle.date)}</h1>
         <p className={styles.intro}>
-          The four categories and all 16 words for this Daily Word Categories
-          puzzle.
+          Full answers unlock after you solve two groups in the puzzle.
         </p>
 
-        <div className={styles.groups}>
-          {puzzle.categories.map((category) => (
-            <section className={styles.group} key={category.name}>
-              <span>{category.difficulty}</span>
-              <h2>{category.name}</h2>
-              <p>{category.words.join(", ")}</p>
-            </section>
-          ))}
-        </div>
+        <AnswerGate puzzle={puzzle} />
       </article>
     </main>
   );

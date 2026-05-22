@@ -57,3 +57,10 @@
   gap: 8px;
   padding-left: 20px;
 }
+
+.notice {
+  padding: 18px;
+  border: 1px solid rgba(28, 34, 45, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.56);
+}
