@@ -1,9 +1,9 @@
 :root {
-  --background: #080b12;
-  --foreground: #f5f2ea;
-  --text: #f5f2ea;
-  --muted: #b7becc;
-  --soft: #7d8799;
+  --background: #d7d9dd;
+  --foreground: #1d222b;
+  --text: #1d222b;
+  --muted: #5f6876;
+  --soft: #7a8492;
   --group-one: #e9c46a;
   --group-two: #67cfad;
   --group-three: #9da8ff;
@@ -12,7 +12,7 @@
 
 html {
   height: 100%;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,

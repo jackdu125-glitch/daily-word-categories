@@ -112,6 +112,19 @@ export default function Home() {
 
   return (
     <main className={styles.shell}>
+      <div className={styles.ambientStage} aria-hidden="true">
+        <div className={styles.orbitRing} />
+        <div className={`${styles.floatCard} ${styles.floatCardOne}`}>
+          DAILY
+        </div>
+        <div className={`${styles.floatCard} ${styles.floatCardTwo}`}>
+          WORD
+        </div>
+        <div className={`${styles.floatCard} ${styles.floatCardThree}`}>
+          FOUR
+        </div>
+      </div>
+
       <section className={styles.hero}>
         <nav className={styles.nav} aria-label="Game navigation">
           <div className={styles.brand}>
