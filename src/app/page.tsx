@@ -1,25 +1,31 @@
 "use client";
 
 import { RotateCcw, Send, Shuffle, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   categoryForSelection,
+  createShareText,
   fallbackPuzzle,
+  getProgressStorageKey,
+  getSolvedWords,
   shuffleWords,
-  type Category,
+  type SolvedGroup,
   type Puzzle,
 } from "@/lib/puzzle";
 import styles from "./page.module.css";
-
-type SolvedGroup = Category & {
-  order: number;
-};
 
 type GroupColorStyle = React.CSSProperties & {
   "--group-color": string;
 };
 
-const difficultyTone: Record<Category["difficulty"], string> = {
+type StoredProgress = {
+  solved: SolvedGroup[];
+  mistakes: number;
+  completedAt?: string;
+};
+
+const difficultyTone: Record<Puzzle["categories"][number]["difficulty"], string> = {
   easy: "var(--group-one)",
   medium: "var(--group-two)",
   hard: "var(--group-three)",
@@ -33,6 +39,8 @@ export default function Home() {
   const [solved, setSolved] = useState<SolvedGroup[]>([]);
   const [mistakes, setMistakes] = useState(4);
   const [message, setMessage] = useState("Find four hidden categories.");
+  const [shareStatus, setShareStatus] = useState("");
+  const [hydratedDate, setHydratedDate] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -51,15 +59,66 @@ export default function Home() {
     };
   }, []);
 
-  const remainingWords = useMemo(() => {
-    const solvedWords = new Set(solved.flatMap((group) => group.words));
-    return words.filter((word) => !solvedWords.has(word));
-  }, [solved, words]);
+  useEffect(() => {
+    const storageKey = getProgressStorageKey(puzzle.date);
+    const saved = window.localStorage.getItem(storageKey);
+
+    if (saved) {
+      try {
+        const progress = JSON.parse(saved) as StoredProgress;
+        setSolved(progress.solved ?? []);
+        setMistakes(progress.mistakes ?? 4);
+        setSelected([]);
+        setMessage(
+          progress.completedAt ? "Complete. Come back tomorrow." : "Progress restored.",
+        );
+        setHydratedDate(puzzle.date);
+        return;
+      } catch {
+        window.localStorage.removeItem(storageKey);
+      }
+    }
+
+    setSolved([]);
+    setMistakes(4);
+    setSelected([]);
+    setMessage("Find four hidden categories.");
+    setHydratedDate(puzzle.date);
+  }, [puzzle.date]);
+
+  useEffect(() => {
+    if (hydratedDate !== puzzle.date) return;
+
+    const storageKey = getProgressStorageKey(puzzle.date);
+    const progress: StoredProgress = {
+      solved,
+      mistakes,
+      completedAt: solved.length === 4 ? new Date().toISOString() : undefined,
+    };
+
+    window.localStorage.setItem(storageKey, JSON.stringify(progress));
+  }, [hydratedDate, mistakes, puzzle.date, solved]);
 
   const isComplete = solved.length === 4;
+  const isFailed = mistakes === 0 && !isComplete;
+  const displayGroups = useMemo(
+    () =>
+      isFailed
+        ? puzzle.categories.map((category, index) => ({
+            ...category,
+            order: index + 1,
+          }))
+        : solved,
+    [isFailed, puzzle.categories, solved],
+  );
+
+  const remainingWords = useMemo(() => {
+    const solvedWords = getSolvedWords(displayGroups);
+    return words.filter((word) => !solvedWords.has(word));
+  }, [displayGroups, words]);
 
   function toggleWord(word: string) {
-    if (isComplete) return;
+    if (isComplete || isFailed) return;
 
     setSelected((current) => {
       if (current.includes(word)) {
@@ -75,13 +134,18 @@ export default function Home() {
   }
 
   function submitGuess() {
-    if (selected.length !== 4 || isComplete) return;
+    if (selected.length !== 4 || isComplete || isFailed) return;
 
     const matched = categoryForSelection(puzzle, selected);
 
     if (!matched) {
-      setMistakes((current) => Math.max(0, current - 1));
-      setMessage("Not quite. Try another link.");
+      setMistakes((current) => {
+        const next = Math.max(0, current - 1);
+        setMessage(
+          next === 0 ? "Out of guesses. The solution is revealed." : "Not quite. Try another link.",
+        );
+        return next;
+      });
       setSelected([]);
       return;
     }
@@ -102,12 +166,37 @@ export default function Home() {
     setSelected([]);
     setSolved([]);
     setMistakes(4);
+    setShareStatus("");
     setMessage("Fresh board. Same puzzle.");
+    window.localStorage.removeItem(getProgressStorageKey(puzzle.date));
   }
 
   function shuffleBoard() {
+    if (isComplete || isFailed) return;
     setWords((current) => shuffleWords(current));
     setMessage("Board shuffled.");
+  }
+
+  function deselectAll() {
+    setSelected([]);
+    setMessage("Selection cleared.");
+  }
+
+  async function shareResult() {
+    const text = createShareText(puzzle, 4 - mistakes, isComplete);
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ text, title: "Daily Word Categories" });
+        setShareStatus("Shared.");
+        return;
+      }
+
+      await navigator.clipboard.writeText(text);
+      setShareStatus("Copied to clipboard.");
+    } catch {
+      setShareStatus("Share text ready. Copy from your browser menu.");
+    }
   }
 
   return (
@@ -131,7 +220,11 @@ export default function Home() {
             <Sparkles size={18} aria-hidden="true" />
             <span>Daily Word Categories</span>
           </div>
-          <time dateTime={puzzle.date}>{puzzle.date}</time>
+          <div className={styles.navMeta}>
+            <Link href="/how-to-play">How to play</Link>
+            <Link href="/archive">Archive</Link>
+            <time dateTime={puzzle.date}>{puzzle.date}</time>
+          </div>
         </nav>
 
         <div className={styles.titleBlock}>
@@ -160,7 +253,7 @@ export default function Home() {
         </div>
 
         <div className={styles.solvedStack}>
-          {solved.map((group) => (
+          {displayGroups.map((group) => (
             <article
               className={styles.solvedGroup}
               key={group.name}
@@ -170,7 +263,7 @@ export default function Home() {
                 } as GroupColorStyle
               }
             >
-              <span>Group {group.order}</span>
+              <span>{isFailed ? "Solution" : `Group ${group.order}`}</span>
               <h2>{group.name}</h2>
               <p>{group.words.join(", ")}</p>
             </article>
@@ -195,17 +288,20 @@ export default function Home() {
         </div>
 
         <div className={styles.controls}>
-          <button onClick={shuffleBoard} type="button">
+          <button disabled={isComplete || isFailed} onClick={shuffleBoard} type="button">
             <Shuffle size={16} aria-hidden="true" />
             Shuffle
           </button>
+          <button disabled={!selected.length} onClick={deselectAll} type="button">
+            Deselect
+          </button>
           <button onClick={resetBoard} type="button">
             <RotateCcw size={16} aria-hidden="true" />
-            Reset
+            Restart
           </button>
           <button
             className={styles.submit}
-            disabled={selected.length !== 4 || isComplete}
+            disabled={selected.length !== 4 || isComplete || isFailed}
             onClick={submitGuess}
             type="button"
           >
@@ -213,6 +309,17 @@ export default function Home() {
             Submit
           </button>
         </div>
+
+        {isComplete ? (
+          <div className={styles.completePanel}>
+            <span>Today&apos;s result</span>
+            <h2>Solved with {4 - mistakes} mistakes.</h2>
+            <button onClick={shareResult} type="button">
+              Share result
+            </button>
+            {shareStatus ? <p>{shareStatus}</p> : null}
+          </div>
+        ) : null}
       </section>
     </main>
   );

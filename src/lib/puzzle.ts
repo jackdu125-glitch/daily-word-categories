@@ -10,6 +10,10 @@ export type Puzzle = {
   categories: Category[];
 };
 
+export type SolvedGroup = Category & {
+  order: number;
+};
+
 export const fallbackPuzzle: Puzzle = {
   date: new Date().toISOString().slice(0, 10),
   words: [
@@ -56,6 +60,44 @@ export const fallbackPuzzle: Puzzle = {
 
 export function shuffleWords(words: string[]) {
   return [...words].sort(() => Math.random() - 0.5);
+}
+
+export function todayIsoDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export function formatPuzzleDate(date: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00.000Z`));
+}
+
+export function getProgressStorageKey(date: string) {
+  return `daily-word-categories:${date}`;
+}
+
+export function getSolvedWords(solved: Pick<SolvedGroup, "words">[]) {
+  return new Set(solved.flatMap((group) => group.words));
+}
+
+export function createShareText(
+  puzzle: Puzzle,
+  mistakesUsed: number,
+  completed: boolean,
+) {
+  const result = completed
+    ? `Solved with ${mistakesUsed} ${mistakesUsed === 1 ? "mistake" : "mistakes"}`
+    : "Still working on today's puzzle";
+
+  return [
+    "Daily Word Categories",
+    formatPuzzleDate(puzzle.date),
+    result,
+    "https://jackdu2.me",
+  ].join("\n");
 }
 
 export function normalizeWord(word: string) {

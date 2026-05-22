@@ -123,6 +123,19 @@
   font-size: 0.78rem;
 }
 
+.navMeta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  text-align: right;
+}
+
+.navMeta a {
+  color: var(--muted);
+  font-weight: 720;
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -269,7 +282,7 @@
 
 .controls {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   margin-top: 14px;
 }
@@ -297,6 +310,42 @@
   border-color: rgba(28, 34, 45, 0.18);
   background: #1f2937;
   color: #f6f7f9;
+}
+
+.completePanel {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid rgba(28, 34, 45, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.completePanel span {
+  color: var(--soft);
+  font-size: 0.68rem;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.completePanel h2 {
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.completePanel button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #f6f7f9;
+  font-weight: 780;
+}
+
+.completePanel p {
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 @keyframes cardFloat {
@@ -331,6 +380,15 @@
 }
 
 @media (max-width: 520px) {
+  .nav {
+    align-items: flex-start;
+  }
+
+  .navMeta {
+    flex-direction: column;
+    gap: 5px;
+  }
+
   .ambientStage {
     top: 154px;
     width: 112vw;
@@ -364,5 +422,9 @@
 
   .titleBlock {
     padding-top: 48px;
+  }
+
+  .controls {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
