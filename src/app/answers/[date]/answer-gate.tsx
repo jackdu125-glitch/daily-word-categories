@@ -28,17 +28,19 @@ export function AnswerGate({ puzzle }: AnswerGateProps) {
     try {
       saved = window.localStorage.getItem(getProgressStorageKey(puzzle.date));
     } catch {
-      setSolvedCount(0);
+      queueMicrotask(() => setSolvedCount(0));
       return;
     }
 
     if (saved) {
       try {
         const progress = JSON.parse(saved) as StoredProgress;
-        setSolvedCount(progress.solved?.length ?? 0);
+        queueMicrotask(() => setSolvedCount(progress.solved?.length ?? 0));
       } catch {
-        setSolvedCount(0);
+        queueMicrotask(() => setSolvedCount(0));
       }
+    } else {
+      queueMicrotask(() => setSolvedCount(0));
     }
   }, [puzzle.date]);
 

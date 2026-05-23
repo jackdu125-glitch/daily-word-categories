@@ -12,7 +12,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AuthStatus } from "@/components/auth-status";
+import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import {
   categoryForSelection,
   ANSWER_UNLOCK_SOLVED_COUNT,
@@ -53,6 +55,7 @@ export default function Home() {
   const [message, setMessage] = useState("Find four hidden categories.");
   const [shareStatus, setShareStatus] = useState("");
   const [hydratedDate, setHydratedDate] = useState("");
+  const syncedCompletionKey = useRef("");
 
   useEffect(() => {
     let mounted = true;
@@ -78,24 +81,28 @@ export default function Home() {
     if (saved) {
       try {
         const progress = JSON.parse(saved) as StoredProgress;
-        setSolved(progress.solved ?? []);
-        setMistakes(progress.mistakes ?? 4);
-        setSelected([]);
-        setMessage(
-          progress.completedAt ? "Complete. Come back tomorrow." : "Progress restored.",
-        );
-        setHydratedDate(puzzle.date);
+        queueMicrotask(() => {
+          setSolved(progress.solved ?? []);
+          setMistakes(progress.mistakes ?? 4);
+          setSelected([]);
+          setMessage(
+            progress.completedAt ? "Complete. Come back tomorrow." : "Progress restored.",
+          );
+          setHydratedDate(puzzle.date);
+        });
         return;
       } catch {
         window.localStorage.removeItem(storageKey);
       }
     }
 
-    setSolved([]);
-    setMistakes(4);
-    setSelected([]);
-    setMessage("Find four hidden categories.");
-    setHydratedDate(puzzle.date);
+    queueMicrotask(() => {
+      setSolved([]);
+      setMistakes(4);
+      setSelected([]);
+      setMessage("Find four hidden categories.");
+      setHydratedDate(puzzle.date);
+    });
   }, [puzzle.date]);
 
   useEffect(() => {
@@ -110,6 +117,27 @@ export default function Home() {
 
     window.localStorage.setItem(storageKey, JSON.stringify(progress));
   }, [hydratedDate, mistakes, puzzle.date, solved]);
+
+  useEffect(() => {
+    if (hydratedDate !== puzzle.date || solved.length !== 4) return;
+
+    const syncKey = `${puzzle.date}:${solved.length}`;
+    if (syncedCompletionKey.current === syncKey) return;
+    syncedCompletionKey.current = syncKey;
+
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) return;
+
+      supabase.from("userprogress").upsert({
+        userid: data.user.id,
+        puzzledate: puzzle.date,
+        solvedat: new Date().toISOString(),
+      });
+    });
+  }, [hydratedDate, puzzle.date, solved.length]);
 
   const isComplete = solved.length === 4;
   const isFailed = mistakes === 0 && !isComplete;
@@ -200,7 +228,11 @@ export default function Home() {
 
     try {
       if (navigator.share) {
-        await navigator.share({ text, title: "Daily Word Categories" });
+        await navigator.share({
+          text,
+          title: "Daily Word Categories",
+          url: "https://www.jackdu2.me",
+        });
         setShareStatus("Shared.");
         return;
       }
@@ -233,7 +265,10 @@ export default function Home() {
             <Sparkles size={18} aria-hidden="true" />
             <span>Daily Word Categories</span>
           </div>
-          <time dateTime={puzzle.date}>{puzzle.date}</time>
+          <div className={styles.navActions}>
+            <time dateTime={puzzle.date}>{puzzle.date}</time>
+            <AuthStatus className={styles.authLink} />
+          </div>
         </nav>
 
         <div className={styles.titleBlock}>
@@ -280,7 +315,7 @@ export default function Home() {
         <div className={styles.statusRow}>
           <div>
             <span className={styles.statusLabel}>Mistakes</span>
-            <strong>{"●".repeat(mistakes)}</strong>
+            <strong>{mistakes}/4 left</strong>
           </div>
           <div>
             <span className={styles.statusLabel}>Solved</span>

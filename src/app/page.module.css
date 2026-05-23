@@ -132,6 +132,28 @@
   letter-spacing: 0;
 }
 
+.navActions,
+.authLink {
+  display: inline-flex;
+  align-items: center;
+}
+
+.navActions {
+  gap: 12px;
+}
+
+.authLink {
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(28, 34, 45, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--text);
+  font-size: 0.76rem;
+  font-weight: 780;
+}
+
 .titleBlock {
   padding: 32px 0 24px;
 }
@@ -424,6 +446,12 @@
 @media (max-width: 520px) {
   .nav {
     align-items: flex-start;
+  }
+
+  .navActions {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .ambientStage {

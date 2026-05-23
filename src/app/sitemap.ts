@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getRecentPuzzles } from "@/lib/puzzles-data";
 
-const siteUrl = "https://jackdu2.me";
+const siteUrl = "https://www.jackdu2.me";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [

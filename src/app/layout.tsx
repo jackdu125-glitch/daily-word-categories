@@ -13,8 +13,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Daily Word Categories",
-  description: "A daily four-by-four English word category puzzle.",
+  metadataBase: new URL("https://www.jackdu2.me"),
+  title: {
+    default: "Daily Word Categories",
+    template: "%s | Daily Word Categories",
+  },
+  description:
+    "Play a sharp daily English word category puzzle: 16 words, 4 hidden groups, one clean challenge every morning.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Daily Word Categories",
+    description:
+      "A polished daily word game with 16 words and 4 hidden categories.",
+    url: "/",
+    siteName: "Daily Word Categories",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Daily Word Categories",
+    description:
+      "Play today's 16-word category puzzle and share your result.",
+  },
 };
 
 export default function RootLayout({

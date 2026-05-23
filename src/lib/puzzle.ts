@@ -102,7 +102,7 @@ export function createShareText(
     "Daily Word Categories",
     formatPuzzleDate(puzzle.date),
     result,
-    "https://jackdu2.me",
+    "https://www.jackdu2.me",
   ].join("\n");
 }
 
