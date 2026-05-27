@@ -19,14 +19,14 @@ export const metadata: Metadata = {
     template: "%s | Daily Word Categories",
   },
   description:
-    "Play a sharp daily English word category puzzle: 16 words, 4 hidden groups, one clean challenge every morning.",
+    "Play a sharp daily English word category puzzle with premium guides, strategy discussion, and one clean challenge every morning.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Daily Word Categories",
     description:
-      "A polished daily word game with 16 words and 4 hidden categories.",
+      "A polished daily word game with 16 words, 4 hidden categories, premium guides, and strategy discussion.",
     url: "/",
     siteName: "Daily Word Categories",
     type: "website",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Daily Word Categories",
     description:
-      "Play today's 16-word category puzzle and share your result.",
+      "Play today's 16-word category puzzle, read strategy guides, and share your result.",
   },
 };
 

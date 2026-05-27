@@ -4,8 +4,10 @@ import {
   BookOpen,
   CalendarDays,
   Clock3,
+  Crown,
   ListChecks,
   Lock,
+  MessageSquare,
   RotateCcw,
   Send,
   Shuffle,
@@ -289,6 +291,21 @@ export default function Home() {
             <CalendarDays size={17} aria-hidden="true" />
             <span>Archive</span>
             <small>Browse previous daily puzzles.</small>
+          </Link>
+          <Link className={styles.entryCard} href="/guides">
+            <Sparkles size={17} aria-hidden="true" />
+            <span>Guides</span>
+            <small>Hints and premium walkthroughs.</small>
+          </Link>
+          <Link className={styles.entryCard} href="/forum">
+            <MessageSquare size={17} aria-hidden="true" />
+            <span>Forum</span>
+            <small>Discuss strategy and daily boards.</small>
+          </Link>
+          <Link className={styles.entryCard} href="/membership">
+            <Crown size={17} aria-hidden="true" />
+            <span>Pro member</span>
+            <small>Unlock deeper explanations.</small>
           </Link>
           {answersUnlocked ? (
             <Link className={styles.entryCard} href={`/answers/${puzzle.date}`}>

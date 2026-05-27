@@ -21,6 +21,89 @@ type Database = {
         };
         Relationships: [];
       };
+      forum_posts: {
+        Row: {
+          id: string;
+          userid: string | null;
+          title: string;
+          body: string;
+          category: "Today Puzzle" | "Strategy" | "Feedback" | "General";
+          is_official: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          userid?: string | null;
+          title: string;
+          body: string;
+          category?: "Today Puzzle" | "Strategy" | "Feedback" | "General";
+          is_official?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          title?: string;
+          body?: string;
+          category?: "Today Puzzle" | "Strategy" | "Feedback" | "General";
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      forum_comments: {
+        Row: {
+          id: string;
+          post_id: string;
+          userid: string | null;
+          body: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          post_id: string;
+          userid?: string | null;
+          body: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          body?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      memberships: {
+        Row: {
+          userid: string;
+          status: "free" | "trialing" | "active" | "past_due" | "canceled";
+          provider: string | null;
+          provider_customer_id: string | null;
+          provider_subscription_id: string | null;
+          current_period_end: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          userid: string;
+          status?: "free" | "trialing" | "active" | "past_due" | "canceled";
+          provider?: string | null;
+          provider_customer_id?: string | null;
+          provider_subscription_id?: string | null;
+          current_period_end?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          status?: "free" | "trialing" | "active" | "past_due" | "canceled";
+          provider?: string | null;
+          provider_customer_id?: string | null;
+          provider_subscription_id?: string | null;
+          current_period_end?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
