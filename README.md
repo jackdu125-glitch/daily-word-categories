@@ -21,8 +21,25 @@ Copy `.env.example` to `.env.local` and fill:
 - `DEEPSEEK_BASE_URL`
 - `DEEPSEEK_MODEL`
 - `CRON_SECRET`
+- `NEXT_PUBLIC_SITE_URL`
+- `PADDLE_ENVIRONMENT`
+- `PADDLE_API_KEY`
+- `PADDLE_PRICE_ID`
 
 The app works with a fallback puzzle when Supabase variables are missing. The daily generator route requires Supabase service role access and `DEEPSEEK_API_KEY`.
+
+## Membership Revenue
+
+The `/membership` page starts a Paddle checkout through `POST /api/membership/checkout`.
+
+Paddle setup:
+
+1. In Paddle, create the `new game Pro` product.
+2. Create a recurring monthly price, currently shown on the site as `$3.99 / month`.
+3. Copy the Paddle price ID into `PADDLE_PRICE_ID`.
+4. Create a server-side API key with transaction write access and save it as `PADDLE_API_KEY`.
+5. Set `PADDLE_ENVIRONMENT=sandbox` while testing, then switch to `live` after Paddle approval.
+6. Set Paddle Checkout's approved/default payment link or domain to the production site.
 
 ## Database
 

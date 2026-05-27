@@ -4,8 +4,9 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(request: Request) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-  const stripePriceId = process.env.STRIPE_PRICE_ID;
+  const paddleApiKey = process.env.PADDLE_API_KEY;
+  const paddlePriceId = process.env.PADDLE_PRICE_ID;
+  const paddleEnvironment = process.env.PADDLE_ENVIRONMENT ?? "live";
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.jackdu2.me";
   const token = request.headers.get("authorization")?.replace("Bearer ", "");
 
@@ -17,9 +18,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Sign in before starting checkout." }, { status: 401 });
   }
 
-  if (!stripeSecretKey || !stripePriceId) {
+  if (!paddleApiKey || !paddlePriceId) {
     return NextResponse.json(
-      { error: "Stripe billing is not configured yet. Add STRIPE_SECRET_KEY and STRIPE_PRICE_ID." },
+      { error: "Paddle billing is not configured yet. Add PADDLE_API_KEY and PADDLE_PRICE_ID." },
       { status: 503 },
     );
   }
@@ -36,33 +37,45 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Your session expired. Sign in again." }, { status: 401 });
   }
 
-  const body = new URLSearchParams({
-    mode: "subscription",
-    success_url: `${siteUrl}/membership?checkout=success`,
-    cancel_url: `${siteUrl}/membership?checkout=cancelled`,
-    client_reference_id: data.user.id,
-    "line_items[0][price]": stripePriceId,
-    "line_items[0][quantity]": "1",
-    "metadata[userid]": data.user.id,
-    "subscription_data[metadata][userid]": data.user.id,
-  });
+  const paddleBaseUrl =
+    paddleEnvironment === "sandbox"
+      ? "https://sandbox-api.paddle.com"
+      : "https://api.paddle.com";
 
-  const stripeResponse = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+  const paddleResponse = await fetch(`${paddleBaseUrl}/transactions`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${stripeSecretKey}`,
-      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${paddleApiKey}`,
+      "Content-Type": "application/json",
     },
-    body,
+    body: JSON.stringify({
+      items: [
+        {
+          price_id: paddlePriceId,
+          quantity: 1,
+        },
+      ],
+      custom_data: {
+        userid: data.user.id,
+        user_email: data.user.email ?? null,
+        product: "new-game-pro",
+      },
+      checkout: {
+        url: `${siteUrl}/membership?checkout=return`,
+      },
+    }),
   });
-  const payload = (await stripeResponse.json()) as { url?: string; error?: { message?: string } };
+  const payload = (await paddleResponse.json()) as {
+    data?: { checkout?: { url?: string | null } };
+    error?: { detail?: string; message?: string };
+  };
 
-  if (!stripeResponse.ok || !payload.url) {
+  if (!paddleResponse.ok || !payload.data?.checkout?.url) {
     return NextResponse.json(
-      { error: payload.error?.message ?? "Stripe checkout failed." },
+      { error: payload.error?.detail ?? payload.error?.message ?? "Paddle checkout failed." },
       { status: 502 },
     );
   }
 
-  return NextResponse.json({ url: payload.url });
+  return NextResponse.json({ url: payload.data.checkout.url });
 }

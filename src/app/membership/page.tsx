@@ -40,7 +40,7 @@ export default function MembershipPage() {
         <div className={styles.pricePanel}>
           <span>new game Pro</span>
           <strong>$3.99 / month</strong>
-          <small>Cancel anytime. Checkout is handled by Stripe.</small>
+          <small>Cancel anytime. Checkout is handled by Paddle.</small>
           <CheckoutButton />
         </div>
       </section>
