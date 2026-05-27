@@ -1,80 +1,130 @@
 .shell {
+  position: relative;
   min-height: 100svh;
-  padding: 28px 20px 44px;
+  overflow-x: hidden;
+  padding: 18px;
   background:
-    radial-gradient(circle at 14% 0%, rgba(255, 255, 255, 0.82), transparent 32%),
-    radial-gradient(circle at 90% 12%, rgba(175, 184, 196, 0.48), transparent 34%),
-    linear-gradient(180deg, #e8e9eb 0%, #c8ccd2 100%);
-  color: var(--text);
+    linear-gradient(90deg, rgba(18, 18, 18, 0.86), rgba(18, 18, 18, 0.76) 48%, rgba(18, 18, 18, 0.88)),
+    linear-gradient(180deg, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.94)),
+    url("/game-forum-bg.png") center / cover fixed;
+  color: #f6f7fb;
+}
+
+.shell::before {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(circle at 72% 18%, rgba(169, 133, 255, 0.32), transparent 24%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 92px);
+  mix-blend-mode: screen;
+}
+
+.shell::after {
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  content: "";
+  background-image:
+    radial-gradient(circle, rgba(203, 185, 255, 0.24) 0 1px, transparent 1.8px),
+    radial-gradient(circle, rgba(93, 155, 255, 0.16) 0 1px, transparent 1.6px);
+  background-position: 0 0, 42px 64px;
+  background-size: 118px 118px, 164px 164px;
+  opacity: 0.3;
+  animation: particleDrift 34s linear infinite;
 }
 
 .hero,
 .grid,
 .split {
-  max-width: 880px;
+  position: relative;
+  z-index: 1;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
+.hero {
+  min-height: 660px;
+  display: grid;
+  align-content: center;
+  padding: clamp(22px, 6vw, 64px);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(12, 16, 29, 0.34), rgba(12, 16, 29, 0.72));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(8px);
+}
+
 .nav {
+  position: absolute;
+  top: 24px;
+  left: clamp(22px, 6vw, 64px);
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 42px;
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 780;
+  gap: 22px;
+  color: rgba(246, 247, 251, 0.68);
+  font-size: 0.92rem;
+  font-weight: 820;
+}
+
+.nav a:first-child {
+  color: #cbb9ff;
 }
 
 .mark {
   display: grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
+  width: 56px;
+  height: 56px;
   border-radius: 8px;
-  background: #1f2937;
-  color: #f6f7f9;
+  background: rgba(169, 133, 255, 0.18);
+  color: #cbb9ff;
+  box-shadow: 0 0 34px rgba(169, 133, 255, 0.2);
 }
 
 .hero h1 {
   max-width: 10ch;
-  margin-top: 20px;
-  font-size: clamp(3rem, 10vw, 6.4rem);
-  line-height: 0.92;
+  margin-top: 22px;
+  font-size: clamp(3.4rem, 9vw, 7.6rem);
+  line-height: 0.88;
   letter-spacing: 0;
 }
 
 .hero p {
-  max-width: 42rem;
-  margin-top: 20px;
-  color: var(--muted);
+  max-width: 46rem;
+  margin-top: 22px;
+  color: rgba(246, 247, 251, 0.68);
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .pricePanel {
   display: grid;
   gap: 10px;
-  max-width: 420px;
-  margin-top: 26px;
+  max-width: 440px;
+  margin-top: 28px;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 24px 72px rgba(72, 78, 88, 0.16);
+  background: rgba(16, 20, 34, 0.76);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(22px);
 }
 
 .pricePanel span,
 .card span {
-  font-weight: 820;
+  font-weight: 860;
 }
 
 .pricePanel strong {
+  color: #ffffff;
   font-size: 2rem;
 }
 
 .pricePanel small,
 .checkoutBox p {
-  color: var(--muted);
+  color: rgba(246, 247, 251, 0.62);
   line-height: 1.5;
 }
 
@@ -88,12 +138,12 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
+  min-height: 48px;
   border: 0;
   border-radius: 8px;
-  background: #1f2937;
-  color: #f6f7f9;
-  font-weight: 820;
+  background: #a985ff;
+  color: #080b16;
+  font-weight: 930;
 }
 
 .checkoutBox button:disabled {
@@ -103,17 +153,18 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 10px;
-  margin-top: 28px;
+  margin-top: 14px;
 }
 
 .card,
 .split article {
-  border: 1px solid rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.62);
-  box-shadow: 0 16px 42px rgba(72, 78, 88, 0.12);
+  background: rgba(16, 20, 34, 0.72);
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(20px);
 }
 
 .card {
@@ -126,7 +177,7 @@
 
 .card svg,
 .split svg {
-  color: var(--muted);
+  color: #a985ff;
 }
 
 .split {
@@ -142,17 +193,43 @@
 
 .split h2 {
   margin-top: 14px;
+  color: #ffffff;
   font-size: 1.15rem;
 }
 
 .split p {
   margin-top: 10px;
-  color: var(--muted);
+  color: rgba(246, 247, 251, 0.64);
   line-height: 1.65;
 }
 
 @media (max-width: 680px) {
+  .shell {
+    padding: 10px;
+    background-attachment: scroll;
+  }
+
+  .hero {
+    min-height: 680px;
+  }
+
   .split {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell::after {
+    animation: none;
+  }
+}
+
+@keyframes particleDrift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(42px, -54px, 0);
   }
 }

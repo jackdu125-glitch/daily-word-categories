@@ -27,7 +27,7 @@ type Database = {
           userid: string | null;
           title: string;
           body: string;
-          category: "Today Puzzle" | "Strategy" | "Feedback" | "General";
+          category: "Announcements" | "General" | "Guides" | "Fan-Art" | "Bug Report";
           is_official: boolean;
           created_at: string;
           updated_at: string;
@@ -37,7 +37,7 @@ type Database = {
           userid?: string | null;
           title: string;
           body: string;
-          category?: "Today Puzzle" | "Strategy" | "Feedback" | "General";
+          category?: "Announcements" | "General" | "Guides" | "Fan-Art" | "Bug Report";
           is_official?: boolean;
           created_at?: string;
           updated_at?: string;
@@ -45,7 +45,7 @@ type Database = {
         Update: {
           title?: string;
           body?: string;
-          category?: "Today Puzzle" | "Strategy" | "Feedback" | "General";
+          category?: "Announcements" | "General" | "Guides" | "Fan-Art" | "Bug Report";
           updated_at?: string;
         };
         Relationships: [];

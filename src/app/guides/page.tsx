@@ -5,9 +5,9 @@ import { getGuides } from "@/lib/community-data";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Daily Word Categories Guides",
+  title: "new game AAA Guides",
   description:
-    "Read Daily Word Categories strategy guides, solving hints, and premium walkthrough previews.",
+    "Read new game AAA guide briefs, walkthrough notes, build tips, and premium strategy summaries.",
 };
 
 export default async function GuidesPage() {
@@ -21,18 +21,18 @@ export default async function GuidesPage() {
           <Link href="/membership">Pro</Link>
           <Link href="/forum">Forum</Link>
         </nav>
-        <h1>Strategy guides for sharper solvers.</h1>
+        <h1>Read the latest AAA strategy layer.</h1>
         <p>
-          Daily hints, category logic, and premium walkthroughs built around the
-          puzzle people are already playing.
+          new game tracks major releases, studies the best guide sites, then
+          turns walkthroughs, builds, maps, and boss notes into cleaner briefs.
         </p>
       </section>
 
       <section className={styles.feature}>
         <BookOpen size={18} aria-hidden="true" />
-        <span>Today&apos;s guide</span>
-        <h2>Read the current board like a stronger player.</h2>
-        <Link href="/guides/today">Open today&apos;s walkthrough</Link>
+        <span>Today&apos;s briefing</span>
+        <h2>Start with the latest release notes, key guides, and player questions.</h2>
+        <Link href="/guides/today">Open today&apos;s AAA brief</Link>
       </section>
 
       <section className={styles.list} aria-label="Guide archive">

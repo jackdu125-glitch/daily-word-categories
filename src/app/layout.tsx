@@ -15,27 +15,27 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.jackdu2.me"),
   title: {
-    default: "Daily Word Categories",
-    template: "%s | Daily Word Categories",
+    default: "new game",
+    template: "%s | new game",
   },
   description:
-    "Play a sharp daily English word category puzzle with premium guides, strategy discussion, and one clean challenge every morning.",
+    "Play daily word games on gameJack with premium guides, strategy discussion, and one clean challenge every morning.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Daily Word Categories",
+    title: "new game",
     description:
-      "A polished daily word game with 16 words, 4 hidden categories, premium guides, and strategy discussion.",
+      "A polished gameJack word-game hub with daily puzzles, premium guides, and strategy discussion.",
     url: "/",
-    siteName: "Daily Word Categories",
+    siteName: "new game",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Daily Word Categories",
+    title: "new game",
     description:
-      "Play today's 16-word category puzzle, read strategy guides, and share your result.",
+      "Play today's word puzzle, read strategy guides, and share your result on gameJack.",
   },
 };
 

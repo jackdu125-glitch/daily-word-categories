@@ -14,7 +14,7 @@ export type ForumPost = {
   id: string;
   title: string;
   body: string;
-  category: "Today Puzzle" | "Strategy" | "Feedback" | "General";
+  category: "Announcements" | "General" | "Guides" | "Fan-Art" | "Bug Report";
   is_official: boolean;
   created_at: string;
 };
@@ -30,28 +30,28 @@ const fallbackGuide: GuideArticle = {
   id: "fallback-today-guide",
   slug: "today",
   puzzle_date: new Date().toISOString().slice(0, 10),
-  title: "Today's Daily Word Categories Strategy",
+  title: "Today's new game AAA Strategy Brief",
   excerpt:
-    "Start with obvious semantic clusters, then save flexible words for the final two groups.",
+    "Track the newest AAA release chatter, then compress guides into routes, builds, bosses, and key player questions.",
   free_body:
-    "Scan the board for the cleanest group first. Avoid early guesses that rely on vague word associations. The best opening move is usually the set where all four words share the same concrete category.",
+    "Start with the game's current patch, highest-search guide topics, and the biggest blocker players mention. A useful brief should answer what to do next, what to collect, what build works, and what mistake to avoid.",
   created_at: new Date().toISOString(),
 };
 
 const fallbackPosts: ForumPost[] = [
   {
     id: "today-discussion",
-    title: "How did today's board feel?",
-    body: "Share the group that made the puzzle click for you. Mark full spoilers clearly.",
-    category: "Today Puzzle",
+    title: "Which AAA guide should new game break down next?",
+    body: "Drop the game, boss, build, quest, or collectible route you want summarized into a cleaner player brief.",
+    category: "General",
     is_official: true,
     created_at: new Date().toISOString(),
   },
   {
     id: "first-move",
-    title: "Best first move: obvious group or weird words?",
-    body: "Some players clear the easy set first. Others isolate suspicious words. Which habit works better?",
-    category: "Strategy",
+    title: "Best guide format: route map, build card, or boss checklist?",
+    body: "The strongest guide sites organize information differently. Which format helps you act fastest in-game?",
+    category: "Guides",
     is_official: true,
     created_at: new Date().toISOString(),
   },

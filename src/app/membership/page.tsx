@@ -5,17 +5,17 @@ import { CheckoutButton } from "./checkout-button";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Pro Membership",
+  title: "gameJack Pro Membership",
   description:
-    "Join Daily Word Categories Pro for premium walkthroughs, archive explanations, and member discussion access.",
+    "Join new game Pro on gameJack for premium walkthroughs, archive explanations, and member discussion access.",
 };
 
 const benefits = [
   "Full daily solving walkthrough",
   "Premium archive explanations",
-  "Member badge in the forum",
+  "gameJack member badge",
   "Ad-free product promise",
-  "Early access positioning for future word games",
+  "Early access positioning for future games",
 ];
 
 export default function MembershipPage() {
@@ -31,14 +31,14 @@ export default function MembershipPage() {
         <div className={styles.mark}>
           <Crown size={24} aria-hidden="true" />
         </div>
-        <h1>Go deeper than the answer.</h1>
+        <h1>Enter the gameJack pro room.</h1>
         <p>
-          Pro turns each daily puzzle into a short lesson: why each category
-          works, where the traps sit, and how stronger solvers read the board.
+          new game Pro turns every daily puzzle into a strategy file: category
+          logic, trap positions, and the moves stronger solvers see first.
         </p>
 
         <div className={styles.pricePanel}>
-          <span>Pro Member</span>
+          <span>new game Pro</span>
           <strong>$3.99 / month</strong>
           <small>Cancel anytime. Checkout is handled by Stripe.</small>
           <CheckoutButton />
@@ -59,16 +59,16 @@ export default function MembershipPage() {
           <Sparkles size={18} aria-hidden="true" />
           <h2>Premium guides</h2>
           <p>
-            Read the daily solve path in plain English: opening group, middle
-            traps, final category logic, and what to remember tomorrow.
+            Read AAA guide summaries in plain English: route order, build
+            priority, boss counters, map checks, and what to do next.
           </p>
         </article>
         <article>
           <MessageSquare size={18} aria-hidden="true" />
           <h2>Member community</h2>
           <p>
-            Keep the forum compact and useful: strategy posts, daily puzzle
-            reactions, feedback, and member-first product updates.
+            Members can open focused forum threads for a specific game, boss,
+            build, quest, or collectible route without noisy public clutter.
           </p>
         </article>
       </section>

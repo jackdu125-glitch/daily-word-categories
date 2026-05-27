@@ -7,7 +7,7 @@ import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 import type { ForumPost } from "@/lib/community-data";
 import styles from "./page.module.css";
 
-const categories = ["All", "Today Puzzle", "Strategy", "Feedback", "General"] as const;
+const categories = ["All", "Announcements", "General", "Guides", "Fan-Art", "Bug Report"] as const;
 
 type ForumClientProps = {
   initialPosts: ForumPost[];
@@ -66,7 +66,7 @@ export function ForumClient({ initialPosts }: ForumClientProps) {
         userid: user.id,
         title,
         body,
-        category: category === "All" ? "Today Puzzle" : category,
+        category: category === "All" ? "General" : category,
       })
       .select("id, title, body, category, is_official, created_at")
       .single();

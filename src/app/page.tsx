@@ -232,7 +232,7 @@ export default function Home() {
       if (navigator.share) {
         await navigator.share({
           text,
-          title: "Daily Word Categories",
+          title: "new game",
           url: "https://www.jackdu2.me",
         });
         setShareStatus("Shared.");
@@ -265,7 +265,7 @@ export default function Home() {
         <nav className={styles.nav} aria-label="Game navigation">
           <div className={styles.brand}>
             <Sparkles size={18} aria-hidden="true" />
-            <span>Daily Word Categories</span>
+            <span>new game</span>
           </div>
           <div className={styles.navActions}>
             <time dateTime={puzzle.date}>{puzzle.date}</time>
@@ -295,12 +295,12 @@ export default function Home() {
           <Link className={styles.entryCard} href="/guides">
             <Sparkles size={17} aria-hidden="true" />
             <span>Guides</span>
-            <small>Hints and premium walkthroughs.</small>
+            <small>AAA briefs and walkthrough summaries.</small>
           </Link>
           <Link className={styles.entryCard} href="/forum">
             <MessageSquare size={17} aria-hidden="true" />
             <span>Forum</span>
-            <small>Discuss strategy and daily boards.</small>
+            <small>Open member game discussions.</small>
           </Link>
           <Link className={styles.entryCard} href="/membership">
             <Crown size={17} aria-hidden="true" />

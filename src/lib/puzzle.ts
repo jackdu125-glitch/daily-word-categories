@@ -99,10 +99,10 @@ export function createShareText(
     : "Still working on today's puzzle";
 
   return [
-    "Daily Word Categories",
+    "new game",
     formatPuzzleDate(puzzle.date),
     result,
-    "https://www.jackdu2.me",
+    "gameJack",
   ].join("\n");
 }
 
