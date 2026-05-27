@@ -248,6 +248,26 @@ export default function Home() {
 
   return (
     <main className={styles.shell}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "new game",
+            url: "https://www.jackdu2.me",
+            applicationCategory: "GameApplication",
+            operatingSystem: "Web",
+            description:
+              "A daily browser word-category puzzle with 16 English words, 4 hidden groups, answer unlocks, and shareable results.",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+          }),
+        }}
+      />
       <div className={styles.ambientStage} aria-hidden="true">
         <div className={styles.orbitRing} />
         <div className={`${styles.floatCard} ${styles.floatCardOne}`}>

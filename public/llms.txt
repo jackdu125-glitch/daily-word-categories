@@ -1,0 +1,38 @@
+# new game
+
+> new game is a browser-based game hub at https://www.jackdu2.me with a daily English word-category puzzle, lightweight account login, AAA guide briefs, a forum-style community surface, and a Pro membership page.
+
+## Key Pages
+
+- Home and daily puzzle: https://www.jackdu2.me/
+- How to play: https://www.jackdu2.me/how-to-play
+- Puzzle archive: https://www.jackdu2.me/archive
+- Guides: https://www.jackdu2.me/guides
+- Today's guide brief: https://www.jackdu2.me/guides/today
+- Forum: https://www.jackdu2.me/forum
+- Pro membership: https://www.jackdu2.me/membership
+- Login: https://www.jackdu2.me/login
+
+## Product Summary
+
+new game gives players a short daily word puzzle built around 16 English words and 4 hidden categories. Players can solve groups, unlock answers after progress, save completion history with Supabase Auth, and share results.
+
+The site is also expanding toward a US-focused game content hub with AAA strategy briefs, forum-style discussion, and premium guide positioning.
+
+## Audience
+
+- US casual word-game players
+- Fans of daily browser puzzles such as Wordle-style games and category puzzles
+- Players searching for short game guides, walkthrough summaries, and strategy notes
+- Early community members who want a simple game hub with daily repeat visits
+
+## Launch Message
+
+Play today's 16-word category puzzle, solve four hidden groups, and share your result. The site is free to try and designed for quick daily play.
+
+## Technical Notes
+
+- Framework: Next.js
+- Database and auth: Supabase
+- Hosting: Vercel
+- Primary domain: https://www.jackdu2.me
