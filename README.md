@@ -25,6 +25,8 @@ Copy `.env.example` to `.env.local` and fill:
 - `PADDLE_ENVIRONMENT`
 - `PADDLE_API_KEY`
 - `PADDLE_PRICE_ID`
+- `PADDLE_VENDOR_ID` for Paddle Classic fallback
+- `PADDLE_CLASSIC_PRODUCT_ID` for Paddle Classic fallback
 
 The app works with a fallback puzzle when Supabase variables are missing. The daily generator route requires Supabase service role access and `DEEPSEEK_API_KEY`.
 
@@ -40,6 +42,8 @@ Paddle setup:
 4. Create a server-side API key with transaction write access and save it as `PADDLE_API_KEY`.
 5. Set `PADDLE_ENVIRONMENT=sandbox` while testing, then switch to `live` after Paddle approval.
 6. Set Paddle Checkout's approved/default payment link or domain to the production site.
+
+Older Paddle Classic accounts can use `PADDLE_VENDOR_ID` and `PADDLE_CLASSIC_PRODUCT_ID` instead of a `pri_...` Billing price ID.
 
 ## Database
 

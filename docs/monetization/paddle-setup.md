@@ -34,6 +34,14 @@ PADDLE_API_KEY=replace_with_live_paddle_api_key
 PADDLE_PRICE_ID=replace_with_live_paddle_price_id
 ```
 
+For older Paddle Classic accounts, use:
+
+```text
+PADDLE_API_KEY=replace_with_classic_vendor_auth_code
+PADDLE_VENDOR_ID=replace_with_classic_vendor_id
+PADDLE_CLASSIC_PRODUCT_ID=replace_with_classic_product_id
+```
+
 ## Test Flow
 
 1. Sign in at `/login`.
@@ -46,5 +54,5 @@ PADDLE_PRICE_ID=replace_with_live_paddle_price_id
 ## Notes
 
 - The API key must stay server-side. Never expose it in React components.
-- The current route stores the Supabase user ID and email in Paddle `custom_data`.
+- The current route stores the Supabase user ID and email in Paddle `custom_data` for Paddle Billing, or `passthrough` for Paddle Classic.
 - Webhook-based membership activation is the next step after the checkout link works.

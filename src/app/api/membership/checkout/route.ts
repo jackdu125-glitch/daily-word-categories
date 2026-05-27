@@ -6,6 +6,8 @@ export async function POST(request: Request) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const paddleApiKey = process.env.PADDLE_API_KEY;
   const paddlePriceId = process.env.PADDLE_PRICE_ID;
+  const paddleVendorId = process.env.PADDLE_VENDOR_ID;
+  const paddleClassicProductId = process.env.PADDLE_CLASSIC_PRODUCT_ID ?? paddlePriceId;
   const paddleEnvironment = process.env.PADDLE_ENVIRONMENT ?? "live";
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.jackdu2.me";
   const token = request.headers.get("authorization")?.replace("Bearer ", "");
@@ -18,9 +20,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Sign in before starting checkout." }, { status: 401 });
   }
 
-  if (!paddleApiKey || !paddlePriceId) {
+  if (!paddleApiKey) {
     return NextResponse.json(
-      { error: "Paddle billing is not configured yet. Add PADDLE_API_KEY and PADDLE_PRICE_ID." },
+      { error: "Paddle billing is not configured yet. Add PADDLE_API_KEY." },
       { status: 503 },
     );
   }
@@ -35,6 +37,55 @@ export async function POST(request: Request) {
 
   if (error || !data.user) {
     return NextResponse.json({ error: "Your session expired. Sign in again." }, { status: 401 });
+  }
+
+  if (!paddlePriceId?.startsWith("pri_")) {
+    if (!paddleVendorId || !paddleClassicProductId) {
+      return NextResponse.json(
+        {
+          error:
+            "Paddle Classic is not configured yet. Add PADDLE_VENDOR_ID and PADDLE_CLASSIC_PRODUCT_ID.",
+        },
+        { status: 503 },
+      );
+    }
+
+    const classicBody = new URLSearchParams({
+      vendor_id: paddleVendorId,
+      vendor_auth_code: paddleApiKey,
+      product_id: paddleClassicProductId,
+      return_url: `${siteUrl}/membership?checkout=success`,
+      passthrough: JSON.stringify({
+        userid: data.user.id,
+        user_email: data.user.email ?? null,
+        product: "new-game-pro",
+      }),
+    });
+
+    const classicResponse = await fetch(
+      "https://vendors.paddle.com/api/2.0/product/generate_pay_link",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: classicBody,
+      },
+    );
+    const classicPayload = (await classicResponse.json()) as {
+      success?: boolean;
+      response?: { url?: string };
+      error?: { message?: string };
+    };
+
+    if (!classicResponse.ok || !classicPayload.success || !classicPayload.response?.url) {
+      return NextResponse.json(
+        { error: classicPayload.error?.message ?? "Paddle Classic checkout failed." },
+        { status: 502 },
+      );
+    }
+
+    return NextResponse.json({ url: classicPayload.response.url });
   }
 
   const paddleBaseUrl =
