@@ -3,12 +3,13 @@ import Link from "next/link";
 import {
   Bell,
   BookOpen,
-  Bug,
+  ChevronRight,
   CircleDot,
   Gamepad2,
+  Home,
   MessageSquare,
-  Palette,
   Radio,
+  Search,
   ShieldAlert,
   Swords,
 } from "lucide-react";
@@ -23,12 +24,22 @@ export const metadata: Metadata = {
 };
 
 const sideLinks = [
-  ["Announcements", Bell],
-  ["General", MessageSquare],
-  ["Guides", BookOpen],
-  ["Fan-Art", Palette],
-  ["Bug Report", Bug],
+  ["首页", Home],
+  ["维基", BookOpen],
+  ["新闻", Bell],
+  ["评论", MessageSquare],
+  ["向导", Swords],
+  ["论坛", Gamepad2],
 ] as const;
+
+const quickLinks = [
+  "Resident Evil 4 Remake Walkthrough",
+  "Best Weapons Upgrade Route",
+  "Blue Medallion Locations",
+  "Boss Counter Notes",
+  "Treasure Map Checklist",
+  "Beginner Survival Tips",
+];
 
 export default async function ForumPage() {
   const posts = await getForumPosts();
@@ -53,11 +64,12 @@ export default async function ForumPage() {
 
       <div className={styles.hub}>
         <aside className={styles.sidebar} aria-label="Forum sections">
+          <Link className={styles.drawerLogo} href="/forum">gameJack</Link>
           <div className={styles.profile}>
             <div className={styles.avatar}>NJ</div>
             <div>
-              <strong>gameJack</strong>
-              <span>Membership hub</span>
+              <strong>new game</strong>
+              <span>AAA guide hub</span>
             </div>
           </div>
           {sideLinks.map(([label, Icon], index) => (
@@ -66,6 +78,19 @@ export default async function ForumPage() {
               <span>{label}</span>
             </Link>
           ))}
+          <div className={styles.socialRow}>
+            <span>▶</span>
+            <span>f</span>
+            <span>◎</span>
+            <span>𝕏</span>
+            <span>♪</span>
+            <span>◈</span>
+          </div>
+          <div className={styles.leftAd}>
+            <span>AD</span>
+            <strong>300 x 250</strong>
+            <small>Guide sponsor slot</small>
+          </div>
           <div className={styles.statStrip}>
             <span>Power</span>
             <strong>8,420</strong>
@@ -79,11 +104,36 @@ export default async function ForumPage() {
               <Swords size={22} aria-hidden="true" />
             </div>
             <span className={styles.eyebrow}>gameJack community terminal</span>
-            <h1>new game forum command center.</h1>
+            <h1>Resident Evil guide command center.</h1>
             <p>
-              Official notes, strategy files, fan ideas, and puzzle feedback in
-              one immersive hub built around daily word play.
+              Read the newest AAA guide signals, then turn walkthroughs,
+              weapons, boss counters, maps, and player questions into cleaner
+              strategy posts.
             </p>
+          </section>
+
+          <section className={styles.guidePanel}>
+            <div className={styles.searchBox}>
+              <Search size={18} aria-hidden="true" />
+              <span>Search gameJack guides</span>
+            </div>
+            <div className={styles.guideHeader}>
+              <span>Resident Evil 4 Remake</span>
+              <h2>Walkthrough and guide index</h2>
+              <p>
+                Borrowing the best from Fextralife and Game8: left-side quick
+                access, route-first guide structure, visible ads, and compact
+                ranking blocks that keep readers moving.
+              </p>
+            </div>
+            <div className={styles.quickGrid}>
+              {quickLinks.map((link) => (
+                <Link href="/guides/today" key={link}>
+                  <span>{link}</span>
+                  <ChevronRight size={15} aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
           </section>
 
           <ForumClient initialPosts={posts} />
@@ -108,10 +158,25 @@ export default async function ForumPage() {
             </div>
           </section>
 
+          <section className={styles.adBox}>
+            <span>Advertisement</span>
+            <strong>300 x 600</strong>
+            <small>Reserved display slot</small>
+          </section>
+
           <section className={styles.widget}>
             <h2>Season Event</h2>
             <div className={styles.countdown}>18:42:09</div>
             <p>Premium guide streak resets tonight.</p>
+          </section>
+
+          <section className={styles.widget}>
+            <h2>Hot Guide Topics</h2>
+            <ol className={styles.rankList}>
+              <li>Village route order</li>
+              <li>Best weapon upgrade path</li>
+              <li>Merchant request checklist</li>
+            </ol>
           </section>
 
           <section className={styles.widget}>

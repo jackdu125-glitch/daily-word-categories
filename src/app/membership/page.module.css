@@ -6,7 +6,7 @@
   background:
     linear-gradient(90deg, rgba(18, 18, 18, 0.86), rgba(18, 18, 18, 0.76) 48%, rgba(18, 18, 18, 0.88)),
     linear-gradient(180deg, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.94)),
-    url("/game-forum-bg.png") center / cover fixed;
+    url("/resident-evil-bg.jpg") center / cover fixed;
   color: #f6f7fb;
 }
 
